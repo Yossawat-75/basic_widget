@@ -1,53 +1,71 @@
-import 'package:basic_widget/rating.dart';
-import 'package:flutter/material.dart';
+  import 'dart:math';
+  import 'package:flutter/material.dart';
 
-void main() {
-  runApp(const MainApp());
-}
+  void main() {
+    runApp(const DiceApp());
+  }
 
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+  class DiceApp extends StatelessWidget {
+    const DiceApp({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: true,
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Basic Widgets'),
-          backgroundColor: const Color.fromARGB(255, 186, 7, 240),
-        ),
-        body: Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Image.asset(
-                'assets/images/ass1.gif',
-                width: 180,
-              ),
-              const SizedBox(height: 12),
-              const Text(
-                'Hello World!',
-                style: TextStyle(fontSize: 18),
-              ),
-            ],
+    @override
+    Widget build(BuildContext context) {
+      return const MaterialApp(
+        debugShowCheckedModeBanner: true,
+        home: DicePage(),
+      );
+    }
+  }
+
+  class DicePage extends StatefulWidget {
+    const DicePage({super.key});
+
+    @override
+    State<DicePage> createState() => _DicePageState();
+  }
+
+  class _DicePageState extends State<DicePage> {
+    String activeDice = 'assets/images/dice-1.png';
+
+    void rollDice() {
+      setState(() {
+        int dice = Random().nextInt(6) + 1;
+        activeDice = 'assets/images/dice-$dice.png';
+        print(activeDice);
+      });
+    }
+
+    @override
+    Widget build(BuildContext context) {
+      return Scaffold(
+        body: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Colors.lightBlue,
+                Colors.green,
+              ],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
           ),
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {},
-          backgroundColor: Colors.orange,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-          ),
-          child: const Text(
-            'Click Me',
-            style: TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.bold,
+          child: Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Image.asset(
+                  activeDice,
+                  width: 200,
+                ),
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: rollDice,
+                  child: const Text('Roll the Dice'),
+                ),
+              ],
             ),
           ),
         ),
-      ),
-    );
+      );
+    }
   }
-}
